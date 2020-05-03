@@ -36,9 +36,10 @@ class MenuBar extends Component {
   }
 
   render() {
-    let height = 'Loading'
+    let height = 'Loading', network = 'Loading';
     if (this.props.hive.props) {
       height = this.props.hive.props.head_block_number;
+      network = this.props.hive.props.network;
     }
     return (
       <Menu vertical fixed="left" color="black" inverted icon="labeled">
@@ -86,10 +87,17 @@ class MenuBar extends Component {
             bottom: 0
           }}
         >
-          <p>
-            Height
-          </p>
-          {height}
+        <div>
+          <span style={{lineHeight: '1.5em'}}>Chain:</span><br/>
+          <span
+            style={{fontWeight: 700}}
+            className="hivered">{network}</span>
+          <hr />
+          <span style={{lineHeight: '1.5em'}}>Height:</span><br/>
+          <span
+            style={{fontWeight: 700}}
+            className="hivered">{height}</span>
+        </div>
         </Menu.Item>
       </Menu>
     );

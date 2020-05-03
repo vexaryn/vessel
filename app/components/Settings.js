@@ -155,6 +155,116 @@ export default class Settings extends Component {
             </Form.Group>
           </Segment>
 
+          <Segment attached>
+            <Header size="small">
+              Bittrex
+            </Header>
+            <Form.Group widths="equal">
+              <Form.Input
+                label="HBD Memo (Unencrypted)"
+                name="bittrex_hbd"
+                value={this.props.preferences.bittrex_hbd}
+                onChange={this.handleChange}
+                placeholder="Enter your HBD Unencrypted Memo key for Bittrex"
+              />
+              <Form.Input
+                label="HIVE Memo (Unencrypted)"
+                name="bittrex_hive"
+                value={this.props.preferences.bittrex_hive}
+                onChange={this.handleChange}
+                placeholder="Enter your HIVE Unencrypted Memo key for Bittrex"
+              />
+            </Form.Group>
+          </Segment>
+
+          <Segment attached>
+            <Header size="small">
+              Huobi
+            </Header>
+            <Form.Group widths="equal">
+              <Form.Input
+                label="HBD Memo (Unencrypted)"
+                name="huobi_hbd"
+                value={this.props.preferences.huobi_hbd}
+                onChange={this.handleChange}
+                placeholder="Enter your HBD Unencrypted Memo key for Huobi"
+              />
+              <Form.Input
+                label="HIVE Memo (Unencrypted)"
+                name="huobi_hive"
+                value={this.props.preferences.huobi_hive}
+                onChange={this.handleChange}
+                placeholder="Enter your HIVE Unencrypted Memo key for Huobi"
+              />
+            </Form.Group>
+          </Segment>
+
+          <Segment attached>
+            <Header size="small">
+              Ionomy
+            </Header>
+            <Form.Group widths="equal">
+              <Form.Input
+                label="HBD Memo (Unencrypted)"
+                name="ionomy_hbd"
+                value={this.props.preferences.ionomy_hbd}
+                onChange={this.handleChange}
+                placeholder="Enter your HBD Unencrypted Memo key for Ionomy"
+              />
+              <Form.Input
+                label="HIVE Memo (Unencrypted)"
+                name="ionomy_hive"
+                value={this.props.preferences.ionomy_hive}
+                onChange={this.handleChange}
+                placeholder="Enter your HIVE Unencrypted Memo key for Ionomy"
+              />
+            </Form.Group>
+          </Segment>
+
+          <Segment attached>
+            <Header size="small">
+              ProBit
+            </Header>
+            <Form.Group widths="equal">
+              <Form.Input
+                label="HBD Memo (Unencrypted)"
+                name="probit_hbd"
+                value={this.props.preferences.probit_hbd}
+                onChange={this.handleChange}
+                placeholder="Enter your HBD Unencrypted Memo key for ProBit"
+              />
+              <Form.Input
+                label="HIVE Memo (Unencrypted)"
+                name="probit_hive"
+                value={this.props.preferences.probit_hive}
+                onChange={this.handleChange}
+                placeholder="Enter your HIVE Unencrypted Memo key for ProBit"
+              />
+            </Form.Group>
+          </Segment>
+
+          <Segment attached>
+            <Header size="small">
+              MXC
+            </Header>
+            <Form.Group widths="equal">
+              <Form.Input
+                label="HBD Memo (Unencrypted)"
+                name="mxc_hbd"
+                value={this.props.preferences.mxc_hbd}
+                onChange={this.handleChange}
+                placeholder="Enter your HBD Unencrypted Memo key for MXC"
+              />
+              <Form.Input
+                label="HIVE Memo (Unencrypted)"
+                name="mxc_hive"
+                value={this.props.preferences.mxc_hive}
+                onChange={this.handleChange}
+                placeholder="Enter your HIVE Unencrypted Memo key for MXC"
+              />
+            </Form.Group>
+          </Segment>
+
         </Form>
 
         <Divider />

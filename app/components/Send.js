@@ -11,23 +11,48 @@ const exchangeOptions = [
     key: 'blocktrades',
     text: 'BlockTrades (@blocktrades)',
     value: 'blocktrades',
+  },
+  {
+    key: 'bittrex',
+    text: 'Bittrex (@bittrex)',
+    value: 'bittrex',
+  },
+  {
+    key: 'huobi',
+    text: 'Huobi (@huobi-pro)',
+    value: 'huobi-pro',
+  },
+  {
+    key: 'ionomy',
+    text: 'Ionomy (@ionomy)',
+    value: 'ionomy',
+  },
+  {
+    key: 'probit',
+    text: 'Probit (@probithive)',
+    value: 'probithive',
+  },
+  {
+    key: 'mxc',
+    text: 'MXC (@mxchive)',
+    value: 'mxchive',
   }
 ];
 
 const exchangeLinks = {
-  bittrex: 'https://bittrex.com',
   blocktrades: 'https://blocktrades.us',
-  changelly: 'https://changelly.com',
-  'openledger-dex': 'https://openledger.io',
-  poloniex: 'https://poloniex.com',
-  shapeshiftio: 'https://shapeshift.io'
+  bittrex: 'https://bittrex.com',
+  'huobi-pro': 'https://huobi.com',
+  ionomy: 'https://ionomy.com',
+  probithive: 'https://probit.com',
+  mxchive: 'https://mxc.com'
 };
 
 const exchangeNotes = {
-  poloniex: (
+  blocktrades: (
     <Message>
       <strong>Warning</strong>:
-      Poloniex deposits have not been working for months, it's recommended to avoid this exchange. Please ensure verify whether or not their Hive wallet is active on their website.
+      Blocktrades exchange is currently blocked on Steem. Do not send STEEM to this exchange.
     </Message>
   )
 }

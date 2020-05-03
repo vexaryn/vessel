@@ -14,6 +14,14 @@ export function refreshGlobalProps() {
         //   payload: err
         // });
       } else {
+        if(results.virtual_supply.search('HIVE') !== -1){
+          results.network = "Hive";
+        } else if(results.virtual_supply.search('STEEM') !== -1){
+          results.network = "Steem";
+        } else {
+          results.network = "Unknown";
+        }
+
         dispatch({
           type: HIVE_GLOBALPROPS_UPDATE_RESOLVED,
           payload: results

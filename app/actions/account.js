@@ -108,34 +108,34 @@ export function createAccountDelegated(wif: string, params: object, preferences 
 
 export function getMinimumAccountDelegation(preferences = {}) {
   return async dispatch => {
-    let client
-    if(preferences && preferences.hived_node) {
-      client = new Client(preferences.hived_node);
-    } else {
-      client = new Client('https://api.hive.blog');
-    }
-    const constants = await client.database.getConfig();
-    const chainProps = await client.database.getChainProperties();
-    const dynamicProps = await client.database.getDynamicGlobalProperties();
+    // let client
+    // if(preferences && preferences.hived_node) {
+    //   client = new Client(preferences.hived_node);
+    // } else {
+    //   client = new Client('https://api.hive.blog');
+    // }
+    // const constants = await client.database.getConfig();
+    // const chainProps = await client.database.getChainProperties();
+    // const dynamicProps = await client.database.getDynamicGlobalProperties();
 
-    const creationFee = Asset.from(chainProps.account_creation_fee);
-    const sharePrice = Price.from({
-      base: dynamicProps.total_vesting_shares,
-      quote: dynamicProps.total_vesting_fund_steem
-    });
+    // const creationFee = Asset.from(chainProps.account_creation_fee);
+    // const sharePrice = Praiice.from({
+    //   base: dynamicProps.total_vesting_shares,
+    //   quote: dynamicProps.total_vesting_fund_steem
+    // });
 
-    const ratio = constants.HIVE_CREATE_ACCOUNT_DELEGATION_RATIO;
-    const modifier = constants.HIVE_CREATE_ACCOUNT_WITH_HIVE_MODIFIER;
+    // const ratio = constants.HIVE_CREATE_ACCOUNT_DELEGATION_RATIO;
+    // const modifier = constants.HIVE_CREATE_ACCOUNT_WITH_HIVE_MODIFIER;
 
-    const fee = Asset.from('0.200 HIVE');
+    // const fee = Asset.from('0.200 HIVE');
 
-    const targetDelegation = sharePrice.convert(creationFee.multiply(modifier * ratio));
-    const delegation = targetDelegation.subtract(sharePrice.convert(fee.multiply(ratio)));
-    const sp = sharePrice.convert(delegation);
-    client.disconnect();
+    // const targetDelegation = sharePrice.convert(creationFee.multiply(modifier * ratio));
+    // const delegation = targetDelegation.subtract(sharePrice.convert(fee.multiply(ratio)));
+    // const sp = sharePrice.convert(delegation);
+    // client.disconnect();
     dispatch({
       type: ACCOUNT_DATA_MINIMUM_ACCOUNT_DELEGATION,
-      payload: { delegation, fee, sp }
+      payload: { }
     });
   };
 }
