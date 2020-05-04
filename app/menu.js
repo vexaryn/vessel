@@ -98,9 +98,9 @@ export default class MenuBuilder {
     const subMenuHelp = {
       label: 'Help',
       submenu: [
-        { label: 'Source Code (Github)', click() { shell.openExternal('https://github.com/aaroncox/vessel'); } },
-        { label: 'Report Bug (Github)', click() { shell.openExternal('https://github.com/aaroncox/vessel/issues'); } },
-        { label: 'Releases (Github)', click() { shell.openExternal('https://github.com/aaroncox/vessel/releases'); } }
+        { label: 'Source Code (Github)', click() { shell.openExternal('https://github.com/netuoso/vessel'); } },
+        { label: 'Report Bug (Github)', click() { shell.openExternal('https://github.com/netuoso/vessel/issues'); } },
+        { label: 'Releases (Github)', click() { shell.openExternal('https://github.com/netuoso/vessel/releases'); } }
       ]
     };
 
@@ -174,9 +174,9 @@ export default class MenuBuilder {
     }, {
       label: 'Help',
       submenu: [
-        { label: 'Source Code (Github)', click() { shell.openExternal('https://github.com/aaroncox/vessel'); } },
-        { label: 'Report Bug (Github)', click() { shell.openExternal('https://github.com/aaroncox/vessel/issues'); } },
-        { label: 'Releases (Github)', click() { shell.openExternal('https://github.com/aaroncox/vessel/releases'); } }
+        { label: 'Source Code (Github)', click() { shell.openExternal('https://github.com/netuoso/vessel'); } },
+        { label: 'Report Bug (Github)', click() { shell.openExternal('https://github.com/netuoso/vessel/issues'); } },
+        { label: 'Releases (Github)', click() { shell.openExternal('https://github.com/netuoso/vessel/releases'); } }
       ]
     }];
 
