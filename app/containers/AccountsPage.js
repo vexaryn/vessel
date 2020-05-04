@@ -18,6 +18,7 @@ import ContentBar from '../components/ContentBar';
 import KeysAdd from '../components/Keys/Add';
 import KeysCreate from '../components/Keys/Create';
 import KeysMemo from '../components/Keys/Memo';
+import KeysAuth from '../components/Keys/Auth';
 
 class AccountsPage extends Component {
 
@@ -28,7 +29,7 @@ class AccountsPage extends Component {
 
   constructor(props) {
     super(props);
-    props.actions.getMinimumAccountDelegation(props.preferences);
+    // props.actions.getMinimumAccountDelegation(props.preferences);
   }
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name })
@@ -63,6 +64,14 @@ class AccountsPage extends Component {
 
   handleRemoveKeyConfirmed = () => {
     this.props.actions.removeKeyConfirmed(this.props.keys.remove);
+  }
+
+  handleAddAuthCancel = () => {
+    this.props.actions.addAuthCancel();
+  }
+
+  handleAddAuthConfirmed = () => {
+    this.props.actions.addAuthConfirmed();
   }
 
   render() {
@@ -182,6 +191,50 @@ class AccountsPage extends Component {
               content: 'Cancel',
               color: 'red',
               onClick: this.handleAddMemoKeyCancel
+            }
+          ]}
+        />
+      );
+    }
+    if (this.props.keys.addAuthPrompt) {
+      modal = (
+        <Modal
+          open
+          header="Add a Key or Account Auth"
+          content={
+            <KeysAuth
+              actions={this.props.actions}
+              keys={this.props.keys}
+            />
+          }
+          actions={[
+            {
+              key: 'no',
+              content: 'Cancel',
+              color: 'red',
+              onClick: this.handleAddAuthCancel
+            }
+          ]}
+        />
+      );
+    }
+    if (this.props.keys.removeAuthPrompt) {
+      modal = (
+        <Modal
+          open
+          header="Remove a Key or Account Auth"
+          content={
+            <KeysAuth
+              actions={this.props.actions}
+              keys={this.props.keys}
+            />
+          }
+          actions={[
+            {
+              key: 'no',
+              content: 'Cancel',
+              color: 'red',
+              onClick: this.handleRemoveAuthCancel
             }
           ]}
         />

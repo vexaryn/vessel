@@ -27,6 +27,10 @@ export const KEY_ADD_MEMO_CANCEL = 'KEY_ADD_MEMO_CANCEL';
 export const KEY_ADD_MEMO_CONFIRM = 'KEY_ADD_MEMO_CONFIRM';
 export const KEY_ADD_MEMO_CONFIRMED = 'KEY_ADD_MEMO_CONFIRMED';
 export const KEY_ADD_MEMO_PROMPT = 'KEY_ADD_MEMO_PROMPT';
+export const KEY_ADD_AUTH_CANCEL = 'KEY_ADD_AUTH_CANCEL';
+export const KEY_ADD_AUTH_CONFIRM = 'KEY_ADD_AUTH_CONFIRM';
+export const KEY_ADD_AUTH_CONFIRMED = 'KEY_ADD_AUTH_CONFIRMED';
+export const KEY_ADD_AUTH_PROMPT = 'KEY_ADD_AUTH_PROMPT';
 export const KEY_ADD_PROMPT = 'KEY_ADD_PROMPT';
 export const KEY_CREATE_CANCEL = 'KEY_CREATE_CANCEL';
 export const KEY_CREATE_PROMPT = 'KEY_CREATE_PROMPT';
@@ -253,5 +257,61 @@ export function addMemoKeyConfirmed(payload) {
 export function addMemoKeyCancel() {
   return {
     type: KEY_ADD_MEMO_CANCEL
+  };
+}
+
+export function addAuth(account: string, wif: string) {
+  console.log("add auth")
+  const isValidKey = hive.auth.isWif(wif);
+  if (isValidKey) {
+    return (dispatch: () => void) => {
+      hive.api.getAccounts([account], (err, result) => {
+        if (result && result.length) {
+          const derivedKey = hive.auth.wifToPublic(wif);
+          if (derivedKey === result[0].memo_key) {
+            const payload = {
+              account,
+              wif
+            };
+            dispatch({
+              type: KEY_ADD_AUTH_CONFIRMED,
+              payload
+            });
+          } else {
+            // Incorrect key for account
+          }
+        }
+      });
+    };
+  }
+  // return {
+  //   type: KEY_ADD_FAILED_WIF_INVALID
+  // };
+}
+
+export function addAuthPrompt(account: string) {
+  return (dispatch: () => void) => {
+    hive.api.getAccounts([account], (err, result) => {
+      dispatch({
+        type: KEY_ADD_AUTH_PROMPT,
+        payload: {
+          account,
+          public: result[0].memo_key
+        }
+      });
+    })
+  }
+}
+
+export function addAuthConfirmed(payload) {
+  return {
+    type: KEY_ADD_AUTH_CONFIRMED,
+    payload
+  };
+}
+
+export function addAuthCancel() {
+  return {
+    type: KEY_ADD_AUTH_CANCEL
   };
 }

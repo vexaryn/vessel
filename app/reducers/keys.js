@@ -16,6 +16,10 @@ import {
   KEY_ADD_MEMO_CANCEL,
   KEY_ADD_MEMO_CONFIRM,
   KEY_ADD_MEMO_CONFIRMED,
+  KEY_ADD_AUTH_PROMPT,
+  KEY_ADD_AUTH_CANCEL,
+  KEY_ADD_AUTH_CONFIRM,
+  KEY_ADD_AUTH_CONFIRMED,
   KEY_ADD_PROMPT,
   KEY_CREATE_CANCEL,
   KEY_CREATE_PROMPT
@@ -97,6 +101,31 @@ export default function keys(state: any = defaultState, action: actionType) {
       return Object.assign({}, state, {
         addMemoPrompt: false,
         confirmMemo: false,
+        permissions: newPermissions
+      });
+    }
+    case KEY_ADD_AUTH_CANCEL: {
+      return Object.assign({}, state, {
+        addAuthPrompt: false,
+        confirmAuth: false
+      });
+    }
+    case KEY_ADD_AUTH_PROMPT: {
+      return Object.assign({}, state, {
+        addAuthPrompt: true,
+        confirmAuth: action.payload
+      });
+    }
+    case KEY_ADD_AUTH_CONFIRMED: {
+      console.log("add new auth")
+      const newPermissions = state.permissions
+      const { account, wif } = action.payload
+      if(newPermissions[account]) {
+        newPermissions[account].memo = wif;
+      }
+      return Object.assign({}, state, {
+        addAuthPrompt: false,
+        confirmAuth: false,
         permissions: newPermissions
       });
     }

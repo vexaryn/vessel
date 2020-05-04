@@ -1,10 +1,19 @@
 // @flow
 import React, { Component } from 'react';
-import { Header, Segment, Table } from 'semantic-ui-react';
+import { Header, Segment, Table, Icon } from 'semantic-ui-react';
 
 import AccountName from '../global/AccountName';
 
 export default class AccountsAuths extends Component {
+
+  handleAddAuth = (username) => {
+    this.props.actions.addAuthPrompt(username);
+  }
+
+  handleRemoveAuth = (username) => {
+    this.props.actions.removeAuthPrompt(username);
+  }
+
   render() {
     const names = this.props.keys.names;
     const accounts = names.map((name) => {
@@ -13,7 +22,14 @@ export default class AccountsAuths extends Component {
         <Table.Row key={name}>
           <Table.Cell>
             <Header size="small">
-              <AccountName name={name} />
+              <p><AccountName name={name} /></p>
+              {false && <div>
+              <a onClick={() => this.handleAddAuth(name)}>
+                <Icon size="large" color="blue" name="plus" alt="add auth" />
+              </a>
+              <a onClick={() => this.handleRemoveAuth(name)}>
+                <Icon size="large" color="red" name="remove" alt="remove auth" />
+              </a></div>}
             </Header>
           </Table.Cell>
           <Table.Cell textAlign="center">
