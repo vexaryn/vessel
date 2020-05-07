@@ -38,7 +38,7 @@ class SendPage extends Component {
           <Header
             icon="send"
             content="Send Funds"
-            subheader="Transfer HIVE or HIVE from one of your accounts to another user or exchange."
+            subheader="Transfer HIVE or HBD from one of your accounts to another user or exchange."
           />
         </Segment>
         <Segment basic>
@@ -54,6 +54,7 @@ function mapStateToProps(state) {
   return {
     account: state.account,
     keys: state.keys,
+    hive: state.hive,
     preferences: state.preferences,
     processing: state.processing
   };

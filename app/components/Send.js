@@ -6,12 +6,7 @@ import hive from 'hivejs';
 
 const { shell } = require('electron');
 
-const exchangeOptions = [
-  {
-    key: 'blocktrades',
-    text: 'BlockTrades (@blocktrades)',
-    value: 'blocktrades',
-  },
+var exchangeOptions = [
   {
     key: 'bittrex',
     text: 'Bittrex (@bittrex)',
@@ -21,6 +16,11 @@ const exchangeOptions = [
     key: 'huobi',
     text: 'Huobi (@huobi-pro)',
     value: 'huobi-pro',
+  },
+  {
+    key: 'binance',
+    text: 'Binance (@deepcrypto8)',
+    value: 'deepcrypto8',
   },
   {
     key: 'ionomy',
@@ -40,19 +40,19 @@ const exchangeOptions = [
 ];
 
 const exchangeLinks = {
-  blocktrades: 'https://blocktrades.us',
   bittrex: 'https://bittrex.com',
   'huobi-pro': 'https://huobi.com',
+  deepcrypto8: 'https://binance.com',
   ionomy: 'https://ionomy.com',
   probithive: 'https://probit.com',
   mxchive: 'https://mxc.com'
 };
 
 const exchangeNotes = {
-  blocktrades: (
+  'silly-einstein': (
     <Message>
       <strong>Warning</strong>:
-      Blocktrades exchange is currently blocked on Steem. Do not send STEEM to this exchange.
+      Blocktrades (@blocktrades) is currently blocked on Steem. Account updated to @silly-einstein (current Steem Blocktrades account).
     </Message>
   )
 }
@@ -69,6 +69,7 @@ const defaultState = {
   encryptMemo: false,
   destination: 'account',
   // destination: 'exchange',
+  memoMissing: false,
   modalPreview: false,
   addContactModal: false,
   newContact: '',
@@ -78,8 +79,17 @@ export default class Send extends Component {
   constructor(props) {
     super(props);
     this.state = Object.assign({}, defaultState, {
-      from: props.keys.names[0]
+      from: props.keys.names[0],
+      network: props.hive.props.network
     });
+  }
+  componentDidMount() {
+    this.handleBlocktrades(this.state.network);
+  }
+  componentWillUpdate(nextProps, nextState) {
+    if( this.props.hive.props.network !== nextProps.hive.props.network) {
+      this.handleBlocktrades(nextProps.hive.props.network);
+    }
   }
   componentWillReceiveProps = (nextProps) => {
     if (nextProps.processing.account_transfer_resolved) {
@@ -205,7 +215,14 @@ export default class Send extends Component {
   }
 
   isFormValid = () => {
-    return true;
+    const cleaned = this.state.memo.trim();
+    if (this.state.destination === "exchange" && cleaned.length === 0) {
+      this.setState({memoMissing: true});
+      return false;
+    } else {
+      this.setState({memoMissing: false});
+      return true;
+    }
   }
 
   handlePreview = (e: SyntheticEvent) => {
@@ -250,6 +267,8 @@ export default class Send extends Component {
           modalPreview: true
         });
       }
+    } else {
+      console.log("form not valid")
     }
     e.preventDefault();
   }
@@ -292,7 +311,37 @@ export default class Send extends Component {
     e.preventDefault();
   }
 
-  render() {
+  handleBlocktrades = (network) => {
+    network = network.toLowerCase();
+    var key = {
+      hive: 'blocktrades',
+      steem: 'silly-einstein'
+    }
+    var found = exchangeOptions.find((x) => { return x.key === key[network]; })
+    if ( !found ) {
+      exchangeOptions.unshift({
+        key: key[network],
+        text: `Blocktrades (@${key[network]})`,
+        value: key[network],
+      })
+    }
+
+    exchangeLinks[key[network]] = 'https://blocktrades.us';
+
+    if (network === "hive") {
+      found = exchangeOptions.find((x) => { return x.key === key['steem']; })
+      exchangeOptions = exchangeOptions.filter((x) => { return x !== found });
+      delete exchangeLinks[key['steem']]
+    } else {
+      found = exchangeOptions.find((x) => { return x.key === key['hive']; })
+      exchangeOptions = exchangeOptions.filter((x) => { return x !== found });
+      delete exchangeLinks['blocktrades']
+    }
+
+    this.forceUpdate();
+  }
+
+  render() {    
     const accounts = this.props.account.accounts;
     const keys = this.props.keys;
     const availableFrom = keys.names.map((name) => {
@@ -646,6 +695,12 @@ export default class Send extends Component {
                 onChange={this.handleMemoChange}
               />
               {encryptedField}
+              <Message
+                error
+                visible={this.state.memoMissing}
+                header="Form Validation Error"
+                content="A memo is required when sending to an exchange otherwise you may lose your tokens."
+              />
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>

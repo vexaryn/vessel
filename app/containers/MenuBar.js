@@ -6,8 +6,10 @@ import { Icon, Menu } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import * as AccountActions from '../actions/account';
 import * as HiveActions from '../actions/hive';
+import * as PreferencesActions from '../actions/preferences';
 
-const src = require('../img/hive.png');
+const srcHive = require('../img/hive.png');
+const srcSteem = require('../img/steem.png');
 
 class MenuBar extends Component {
 
@@ -44,16 +46,25 @@ class MenuBar extends Component {
     return (
       <Menu vertical fixed="left" color="black" inverted icon="labeled">
         <Menu.Item header>
-          <img
-            alt="Vessel"
-            className="ui tiny image"
-            src={src}
-            style={{
-              width: '50px',
-              height: '50px',
-              margin: '0 auto 1em',
-            }}
-          />
+          <a onClick={() => {
+            var newNode = this.props.hive.props.network === "Hive" ? "https://api.steemit.com" : "https://anyx.io";
+            this.props.actions.setPreference('hived_node', newNode)
+            setTimeout(() => {
+              this.props.actions.refreshAccountData(this.props.keys.names);
+              this.props.actions.refreshGlobalProps();
+            }, 250);
+          }}>
+            <img
+              alt="Vessel"
+              className="ui tiny image"
+              src={network === "Hive" ? srcHive : srcSteem}
+              style={{
+                width: '50px',
+                height: '50px',
+                margin: '0 auto 1em',
+              }}
+            />
+          </a>
           Vessel
         </Menu.Item>
         <Link className="link item" to="/transactions">
@@ -107,7 +118,8 @@ class MenuBar extends Component {
 function mapStateToProps(state) {
   return {
     keys: state.keys,
-    hive: state.hive
+    hive: state.hive,
+    preferences: state.preferences
   };
 }
 
@@ -115,7 +127,8 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
       ...AccountActions,
-      ...HiveActions
+      ...HiveActions,
+      ...PreferencesActions
     }, dispatch)
   };
 }
