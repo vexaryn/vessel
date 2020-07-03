@@ -60,6 +60,7 @@ const exchangeNotes = {
 const exchangeSupportingEncryption = ['bittrex'];
 
 const defaultState = {
+  sourceType: 'liquid',
   from: '',
   to: '',
   amount: '',
@@ -67,7 +68,7 @@ const defaultState = {
   memo: '',
   memoEncrypted: false,
   encryptMemo: false,
-  destination: 'account',
+  destination: 'account_liquid',
   // destination: 'exchange',
   memoMissing: false,
   modalPreview: false,
@@ -107,6 +108,11 @@ export default class Send extends Component {
       encryptMemo: false,
       modalPreview: false,
       memoDetected: false
+    });
+  }
+  handleSourceTypeChange = (e: SyntheticEvent, { value }: { value: any }) => {
+    this.setState({
+      sourceType: value
     });
   }
   handleDestinationChange = (e: SyntheticEvent, { value }: { value: any }) => {
@@ -190,7 +196,8 @@ export default class Send extends Component {
   setAmountMaximum = (e: SyntheticEvent) => {
     const accounts = this.props.account.accounts;
     const { from, symbol } = this.state;
-    const field = (symbol === 'HBD') ? 'sbd_balance' : 'balance';
+    let field = (symbol === 'HBD') ? 'sbd_balance' : 'balance';
+    if(this.state.sourceType === "savings"){ field = `savings_${field}` }
     const amount = accounts[from][field].split(' ')[0];
     this.setState({ amount });
   }
@@ -287,7 +294,15 @@ export default class Send extends Component {
     const usedMemo = memoEncrypted || memo;
     const amount = parseFloat(this.state.amount).toFixed(3);
     const amountFormat = [amount, symbol].join(' ');
-    this.props.actions.useKey('transfer', { from, to, amount: amountFormat, memo: usedMemo }, this.props.keys.permissions[from]);
+    if(this.state.sourceType === "liquid"){
+      this.props.actions.useKey(this.state.destination === 'account_liquid' ? 'transfer' : 'transferToSavings', { from, to, amount: amountFormat, memo: usedMemo }, this.props.keys.permissions[from]);
+    } else {
+      let requestId = 0;
+      hive.api.getSavingsWithdrawFrom(from, (err, result) => {
+        if(result.length !== 0) { requestId = result[result.length-1].request_id+1; }
+        this.props.actions.useKey('transferFromSavings', { from, requestId, to, amount: amountFormat, memo: usedMemo }, this.props.keys.permissions[from]);
+      })
+    }
     this.setState({
       modalPreview: false
     });
@@ -356,7 +371,8 @@ export default class Send extends Component {
         text: name + ' (unavailable - active/owner key not loaded)'
       };
     });
-    const field = (this.state.symbol === 'HBD') ? 'sbd_balance' : 'balance';
+    let field = (this.state.symbol === 'HBD') ? 'sbd_balance' : 'balance';
+    if(this.state.sourceType === 'savings'){ field = `savings_${field}` };
     const availableAmount = accounts[this.state.from][field];
     const errorLabel = <Label color="red" pointing/>;
     let modal = false;
@@ -474,6 +490,22 @@ export default class Send extends Component {
                 <Table.Body>
                   <Table.Row>
                     <Table.Cell textAlign="right">
+                      Source:
+                    </Table.Cell>
+                    <Table.Cell>
+                      {this.state.sourceType}
+                    </Table.Cell>
+                  </Table.Row>
+                  <Table.Row>
+                    <Table.Cell textAlign="right">
+                      Destination:
+                    </Table.Cell>
+                    <Table.Cell>
+                      {this.state.destination.replace('account_','')}
+                    </Table.Cell>
+                  </Table.Row>
+                  <Table.Row>
+                    <Table.Cell textAlign="right">
                       From:
                     </Table.Cell>
                     <Table.Cell>
@@ -579,10 +611,34 @@ export default class Send extends Component {
         {modal}
         <Grid divided centered>
           <Grid.Row>
+            <Message
+              warning
+              visible={this.state.sourceType === "savings" || this.state.destination === "account_savings"}
+              header="Savings Account Warning"
+              content="Transferring from savings account takes 3.5 days and can be cancelled anytime before completion."
+            />
+          </Grid.Row>
+          <Grid.Row>
             <Grid.Column width={4}>
               <div className="field">
                 <label htmlFor="from">Send from...</label>
               </div>
+              <Form.Field
+                control={Radio}
+                name="sourceType"
+                label="liquid"
+                value="liquid"
+                checked={this.state.sourceType === 'liquid'}
+                onChange={this.handleSourceTypeChange}
+              />
+              <Form.Field
+                control={Radio}
+                name="sourceType"
+                label="savings"
+                value="savings"
+                checked={this.state.sourceType === 'savings'}
+                onChange={this.handleSourceTypeChange}
+              />
             </Grid.Column>
             <Grid.Column width={12}>
               <Form.Field
@@ -604,9 +660,9 @@ export default class Send extends Component {
               <Form.Field
                 control={Radio}
                 name="destination"
-                label="another user"
-                value="account"
-                checked={this.state.destination === 'account'}
+                label="another user (liquid)"
+                value="account_liquid"
+                checked={this.state.destination === 'account_liquid'}
                 onChange={this.handleDestinationChange}
               />
               <Form.Field
@@ -623,6 +679,14 @@ export default class Send extends Component {
                 label="saved contact"
                 value="contact"
                 checked={this.state.destination === 'contact'}
+                onChange={this.handleDestinationChange}
+              />
+              <Form.Field
+                control={Radio}
+                name="destination"
+                label="another user (savings)"
+                value="account_savings"
+                checked={this.state.destination === 'account_savings'}
                 onChange={this.handleDestinationChange}
               />
             </Grid.Column>
