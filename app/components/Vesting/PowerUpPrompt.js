@@ -71,7 +71,7 @@ class PowerUpPrompt extends Component {
   }
 
   handleOnChangeComplete = (value) => {
-    const hiveAmount = parseFloat(value);
+    const hiveAmount = parseFloat(value).toFixed(3);
     // const props = this.props.hive.props;
     this.setState({ hiveAmount });
   }
