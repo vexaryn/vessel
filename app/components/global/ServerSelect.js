@@ -43,7 +43,7 @@ export default class ServerSelect extends Component {
     servers.forEach((server) => {
       try {
         // TODO: Fix
-        // get dynamic global properties 
+        // get dynamic global properties
         // const client = new Client(server);
         // client.database.getDynamicGlobalProperties().then((props) => {
         //   let servers = Object.assign({}, this.state.servers);
