@@ -40,7 +40,7 @@ export default class PendingReward extends Component {
                   Account
                 </Table.HeaderCell>
                 <Table.HeaderCell>
-                  HIVE
+                  HBD
                 </Table.HeaderCell>
                 <Table.HeaderCell>
                   HIVE
