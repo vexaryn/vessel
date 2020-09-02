@@ -295,7 +295,7 @@ export default class Send extends Component {
     const amount = parseFloat(this.state.amount).toFixed(3);
     const amountFormat = [amount, symbol].join(' ');
     if(this.state.sourceType === "liquid"){
-      this.props.actions.useKey(this.state.destination === 'account_liquid' ? 'transfer' : 'transferToSavings', { from, to, amount: amountFormat, memo: usedMemo }, this.props.keys.permissions[from]);
+      this.props.actions.useKey(this.state.destination.search('savings') === -1 ? 'transfer' : 'transferToSavings', { from, to, amount: amountFormat, memo: usedMemo }, this.props.keys.permissions[from]);
     } else {
       let requestId = 0;
       hive.api.getSavingsWithdrawFrom(from, (err, result) => {
