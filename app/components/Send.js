@@ -88,7 +88,7 @@ export default class Send extends Component {
     this.handleBlocktrades(this.state.network);
   }
   componentWillUpdate(nextProps, nextState) {
-    if( this.props.hive.props.network !== nextProps.hive.props.network && nextProps.hive.props.network) {
+    if( this.props.hive.props.network !== nextProps.hive.props.network) {
       this.handleBlocktrades(nextProps.hive.props.network);
     }
   }
@@ -327,7 +327,7 @@ export default class Send extends Component {
   }
 
   handleBlocktrades = (network) => {
-    network = network.toLowerCase();
+    network = network ? network.toLowerCase() : 'hive';
     var key = {
       hive: 'blocktrades',
       steem: 'silly-einstein'
