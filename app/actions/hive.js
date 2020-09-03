@@ -14,9 +14,9 @@ export function refreshGlobalProps() {
         //   payload: err
         // });
       } else {
-        if(results.virtual_supply.search('HIVE') !== -1){
+        if(results.virtual_supply.search('HIVE') >= 0){
           results.network = "Hive";
-        } else if(results.virtual_supply.search('STEEM') !== -1){
+        } else if(results.virtual_supply.search('STEEM') >= 0){
           results.network = "Steem";
         } else {
           results.network = "Unknown";

@@ -41,7 +41,7 @@ class MenuBar extends Component {
     let height = 'Loading', network = 'Loading';
     if (this.props.hive.props) {
       height = this.props.hive.props.head_block_number;
-      network = this.props.hive.props.network;
+      network = this.props.hive.props.network || 'Hive';
     }
     return (
       <Menu vertical fixed="left" color="black" inverted icon="labeled">

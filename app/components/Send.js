@@ -81,7 +81,7 @@ export default class Send extends Component {
     super(props);
     this.state = Object.assign({}, defaultState, {
       from: props.keys.names[0],
-      network: props.hive.props.network
+      network: props.hive.props.network || 'Hive'
     });
   }
   componentDidMount() {
