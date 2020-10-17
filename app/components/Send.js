@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { Button, Checkbox, Grid, Label, Message, Modal, Radio, Segment, Select, Table } from 'semantic-ui-react';
 import { Form, Input } from 'formsy-semantic-ui-react';
-import hive from 'hivejs';
+import hive from '@hiveio/hive-js';
 
 const { shell } = require('electron');
 
@@ -196,7 +196,7 @@ export default class Send extends Component {
   setAmountMaximum = (e: SyntheticEvent) => {
     const accounts = this.props.account.accounts;
     const { from, symbol } = this.state;
-    let field = (symbol === 'HBD') ? 'sbd_balance' : 'balance';
+    let field = (symbol === 'HBD') ? 'hbd_balance' : 'balance';
     if(this.state.sourceType === "savings"){ field = `savings_${field}` }
     const amount = accounts[from][field].split(' ')[0];
     this.setState({ amount });
@@ -289,8 +289,8 @@ export default class Send extends Component {
 
   handleConfirm = (e: SyntheticEvent) => {
     var { from, to, symbol, memo, memoEncrypted } = this.state;
-    symbol = symbol.replace("HIVE","STEEM");
-    symbol = symbol.replace("HBD","SBD");
+    // symbol = symbol.replace("HIVE","STEEM");
+    // symbol = symbol.replace("HBD","SBD");
     const usedMemo = memoEncrypted || memo;
     const amount = parseFloat(this.state.amount).toFixed(3);
     const amountFormat = [amount, symbol].join(' ');
@@ -371,7 +371,7 @@ export default class Send extends Component {
         text: name + ' (unavailable - active/owner key not loaded)'
       };
     });
-    let field = (this.state.symbol === 'HBD') ? 'sbd_balance' : 'balance';
+    let field = (this.state.symbol === 'HBD') ? 'hbd_balance' : 'balance';
     if(this.state.sourceType === 'savings'){ field = `savings_${field}` };
     const availableAmount = accounts[this.state.from][field];
     const errorLabel = <Label color="red" pointing/>;

@@ -46,25 +46,16 @@ class MenuBar extends Component {
     return (
       <Menu vertical fixed="left" color="black" inverted icon="labeled">
         <Menu.Item header>
-          <a onClick={() => {
-            var newNode = this.props.hive.props.network === "Hive" ? "https://api.steemit.com" : "https://anyx.io";
-            this.props.actions.setPreference('hived_node', newNode)
-            setTimeout(() => {
-              this.props.actions.refreshAccountData(this.props.keys.names);
-              this.props.actions.refreshGlobalProps();
-            }, 250);
-          }}>
-            <img
-              alt="Vessel"
-              className="ui tiny image"
-              src={network === "Hive" ? srcHive : srcSteem}
-              style={{
-                width: '50px',
-                height: '50px',
-                margin: '0 auto 1em',
-              }}
-            />
-          </a>
+          <img
+            alt="Vessel"
+            className="ui tiny image"
+            src={network === "Hive" ? srcHive : srcSteem}
+            style={{
+              width: '50px',
+              height: '50px',
+              margin: '0 auto 1em',
+            }}
+          />
           Vessel
         </Menu.Item>
         <Link className="link item" to="/transactions">

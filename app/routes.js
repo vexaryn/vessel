@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Switch, Route } from 'react-router';
-import hive from 'hivejs';
+import hive from '@hiveio/hive-js';
 
 import App from './containers/App';
 import AdvancedPage from './containers/AdvancedPage';
@@ -40,6 +40,8 @@ class Routes extends Component {
       // Otherwise set to the api.hive.blog node
       hive.api.setOptions({ url: 'https://api.hive.blog' });
     }
+    hive.config.set('rebranded_api','true');
+    hive.broadcast.updateOperations(); // Necessary to update the already loaded operations
     // Force a refresh immediately after change
     this.props.actions.refreshGlobalProps();
   }

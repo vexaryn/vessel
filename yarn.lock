@@ -5709,7 +5709,7 @@ history@^4.10.1, history@^4.7.2:
     tiny-warning "^1.0.0"
     value-equal "^1.0.1"
 
-"hivejs@npm:steem@^0.7.7":
+"@hiveio/hive-js@npm:steem@^0.7.7":
   version "0.7.11"
   resolved "https://registry.yarnpkg.com/steem/-/steem-0.7.11.tgz#0e8349b4cb677b1438d929537670b028d1ef864e"
   integrity sha512-ZKOJKVZRtm3eVxJbFOjCY7HcCry8018FWQZHSB64gvzlQUJ7x3qKu0fj1kffvA9AgUjVtxNo+KV7zg/xFI1kLg==

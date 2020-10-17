@@ -1,5 +1,5 @@
 // @flow
-import hive from 'hivejs';
+import hive from '@hiveio/hive-js';
 import * as ProcessingActions from './processing';
 
 export const HIVE_GLOBALPROPS_UPDATE = 'HIVE_GLOBALPROPS_UPDATE';
@@ -16,10 +16,11 @@ export function refreshGlobalProps() {
       } else {
         if(results.virtual_supply.search('HIVE') >= 0){
           results.network = "Hive";
-        } else if(results.virtual_supply.search('STEEM') >= 0){
-          results.network = "Steem";
+        // } else if(results.virtual_supply.search('STEEM') >= 0){
+        //   results.network = "Steem";
+
         } else {
-          results.network = "Unknown";
+          results.network = "Hive";
         }
 
         dispatch({

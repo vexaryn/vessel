@@ -1,5 +1,5 @@
 // @flow
-import hive from 'hivejs';
+import hive from '@hiveio/hive-js';
 import type { keysStateType } from '../reducers/keys';
 import * as AccountActions from './account';
 import {
